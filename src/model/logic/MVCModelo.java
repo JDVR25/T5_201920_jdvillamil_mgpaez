@@ -8,9 +8,9 @@ import java.util.Iterator;
 import com.opencsv.CSVReader;
 import model.data_structures.IEstructura;
 import model.data_structures.ListaSencillamenteEncadenada;
-import model.data_structures.MaxColaCP;
-import model.data_structures.MaxHeapCP;
 import model.data_structures.Nodo;
+import model.data_structures.TablaHashLinearProbing;
+import model.data_structures.TablaHashSeparateChaining;
 
 /**
  * Definicion del modelo del mundo
@@ -20,14 +20,17 @@ public class MVCModelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private ListaSencillamenteEncadenada<TravelTime> horas;
+	private ListaSencillamenteEncadenada<TravelTime> dias;
 
+	private TablaHashSeparateChaining<String, TravelTime> separateChaining;
+	
+	private TablaHashLinearProbing<String, TravelTime> linearProbing;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public MVCModelo()
 	{
-		horas = new ListaSencillamenteEncadenada<TravelTime>();
+		dias = new ListaSencillamenteEncadenada<TravelTime>();
 	}
 
 	public void cargarDatos()
@@ -35,35 +38,22 @@ public class MVCModelo {
 		CSVReader reader = null;
 		try 
 		{
-			reader = new CSVReader(new FileReader("./data/bogota-cadastral-2018-1-All-HourlyAggregate.csv"));
-			for(String[] param : reader)
+			for(int i = 1; i < 5; i++)
 			{
-				try
+				reader = new CSVReader(new FileReader("./data/bogota-cadastral-2018-"+ i + "-WeeklyAggregate.csv"));
+				for(String[] param : reader)
 				{
-					TravelTime nuevo = new TravelTime(Integer.parseInt(param[0]), Integer.parseInt(param[1]), 
-							Integer.parseInt(param[2]), Double.parseDouble(param[3]), Double.parseDouble(param[4]),
-							Double.parseDouble(param[5]), Double.parseDouble(param[6]));
-					horas.addLast(nuevo);
-				}
-				catch(NumberFormatException e)
-				{
+					try
+					{
+						TravelTime nuevo = new TravelTime(i, Integer.parseInt(param[0]), Integer.parseInt(param[1]), 
+								Integer.parseInt(param[2]), Double.parseDouble(param[3]), Double.parseDouble(param[4]),
+								Double.parseDouble(param[5]), Double.parseDouble(param[6]));
+						dias.addLast(nuevo);
+					}
+					catch(NumberFormatException e)
+					{
 
-				}
-			}
-
-			reader = new CSVReader(new FileReader("./data/bogota-cadastral-2018-2-All-HourlyAggregate.csv"));
-			for(String[] param : reader)
-			{
-				try
-				{
-					TravelTime nuevo = new TravelTime(Integer.parseInt(param[0]), Integer.parseInt(param[1]), 
-							Integer.parseInt(param[2]), Double.parseDouble(param[3]), Double.parseDouble(param[4]),
-							Double.parseDouble(param[5]), Double.parseDouble(param[6]));
-					horas.addLast(nuevo);
-				}
-				catch(NumberFormatException e)
-				{
-
+					}
 				}
 			}
 
@@ -91,24 +81,24 @@ public class MVCModelo {
 
 	public int darNumViajes()
 	{
-		return horas.size();
+		return dias.size();
 	}
 
 	public TravelTime darPrimerViaje()
 	{
-		return horas.getFirst();
+		return dias.getFirst();
 	}
 
 	public TravelTime darUltimoViaje()
 	{
-		return horas.getLast();
+		return dias.getLast();
 	}
 
 	public ListaSencillamenteEncadenada<TravelTime> consultarViajesSegunHora(int hour)
 	{
 		ListaSencillamenteEncadenada<TravelTime> respuesta = new ListaSencillamenteEncadenada<TravelTime>();
 
-		for(TravelTime temp: horas)
+		for(TravelTime temp: dias)
 		{
 			if(temp.darHoraOMesODia() == hour && temp.darIDOrigen() == 4 && temp.darIdDestino() == 5)
 			{
@@ -122,10 +112,10 @@ public class MVCModelo {
 	public ListaSencillamenteEncadenada<TravelTime> generarMuestra(int tamano)
 	{
 		ListaSencillamenteEncadenada<TravelTime> lista = new ListaSencillamenteEncadenada<TravelTime>();
-		TravelTime[] tiempos = (TravelTime[]) horas.toArray();
-		int n = horas.size() - 1;
+		TravelTime[] tiempos = (TravelTime[]) dias.toArray();
+		int n = dias.size() - 1;
 		int indice = 0;
-		if(!horas.isEmpty())
+		if(!dias.isEmpty())
 		{
 			for(int i = 0; i < tamano; i++)
 			{
@@ -149,31 +139,16 @@ public class MVCModelo {
 		}
 		return lista;
 	}
-
-	public MaxColaCP<TravelTime> crearMaxColaCP (int hInicial, int hFinal)
+	
+	public void crearTablaLinearProbing()
 	{
-		MaxColaCP<TravelTime> respuesta = new MaxColaCP<TravelTime>();
-		for(TravelTime temp: horas)
-		{
-			if(temp.darHoraOMesODia() >= hInicial && temp.darHoraOMesODia() <= hFinal)
-			{
-				respuesta.agregar(temp);
-			}
-		}
-		return respuesta;
+		
+	}
+	
+	public void crearTablaSeparateChaining()
+	{
+		
 	}
 
-	public MaxHeapCP<TravelTime> crearMaxHeapCP (int hInicial, int hFinal)
-	{
-		MaxHeapCP<TravelTime> respuesta = new MaxHeapCP<TravelTime>();
-		for(TravelTime temp: horas)
-		{
-			if(temp.darHoraOMesODia() >= hInicial && temp.darHoraOMesODia() <= hFinal)
-			{
-				respuesta.agregar(temp);
-			}
-		}
-		return respuesta;
-	}
 }
 

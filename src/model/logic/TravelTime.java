@@ -2,6 +2,8 @@ package model.logic;
 
 public class TravelTime implements Comparable<TravelTime>
 {
+	private int trimestre;
+	
 	private int idZonaOrigen;
 
 	private int idZonaDestino;
@@ -16,9 +18,11 @@ public class TravelTime implements Comparable<TravelTime>
 
 	private double desviacionEstandarTGeometrico;
 
-	public TravelTime(int sourceID, int dsTID, int hour, double travelTime, double travelTimeDeviation,
+	public TravelTime(int pTrimestre, int sourceID, int dsTID, int hour, double travelTime, double travelTimeDeviation,
 			double geometricTime, double geometricDeviation)
 	{
+		trimestre = pTrimestre;
+		
 		idZonaOrigen = sourceID;
 
 		idZonaDestino = dsTID;
@@ -32,6 +36,11 @@ public class TravelTime implements Comparable<TravelTime>
 		tiempoGeometricoPromedio = geometricTime;
 
 		desviacionEstandarTGeometrico = geometricDeviation;
+	}
+	
+	public int darTrimestre()
+	{
+		return trimestre;
 	}
 
 	public int darIDOrigen()
@@ -81,5 +90,11 @@ public class TravelTime implements Comparable<TravelTime>
 			respuesta = -1;
 		}
 		return respuesta;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return idZonaOrigen + ", " + idZonaDestino + ", " + hora_mes_dia + ", " + tiempoPromedioViaje;
 	}
 }

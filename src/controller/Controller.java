@@ -47,6 +47,8 @@ public class Controller {
 				modelo.cargarDatos();
 				System.out.println("Datos cargados");
 				System.out.println("Numero de viajes cargados: " + modelo.darNumViajes() );
+				System.out.println("Primer viaje: " + modelo.darPrimerViaje() );
+				System.out.println("Primer viaje: " + modelo.darUltimoViaje() );
 				break;
 
 			case 2:
