@@ -3,7 +3,7 @@ package model.data_structures;
 import java.util.Iterator;
 
 public class Queue<E>
-{	
+{
 	/**
 	 * Atributo que indica la cantidad de elementos que han sido almacenados en la lista.
 	 */
@@ -103,4 +103,5 @@ public class Queue<E>
 	{
 		return cantidadElementos > 0? false: true;
 	}
+
 }
