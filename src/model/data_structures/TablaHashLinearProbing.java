@@ -2,7 +2,7 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class TablaHashLinearProbing<K extends Comparable<K>, V>
+public class TablaHashLinearProbing<K extends Comparable<K>, V> implements IHashTable<K, V>
 {
 	public TablaHashLinearProbing( int capInicial)
 	{

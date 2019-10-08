@@ -83,27 +83,39 @@ public class TableSimbolos<K extends Comparable<K>, V>
 		}
 	}
 
-	public void delete(K key) {
-		if (key != null) 
-			primero = delete(primero, key);
-	}
-
-	private NodoST<K, V> delete(NodoST<K, V> actual, K key)
+	public V delete(K key) 
 	{
-		NodoST<K, V> respuesta = actual;
-		if (actual != null)
+		V borrado = null;
+		if(key != null)
 		{
-			if (key.equals(actual.darLlave()))
+			if(key.equals(primero.darLlave()))
 			{
+				borrado = primero.darElemento();
+				primero = (NodoST<K, V>) primero.darSiguiente();
 				n--;
-				respuesta = (NodoST<K, V>) actual.darSiguiente();
 			}
 			else
 			{
-				actual.cambiarSiguienteST(delete((NodoST<K, V>)actual.darSiguiente(), key));
+				int posicion = 1;
+				NodoST<K, V> anterior = primero;
+				while(posicion < n && borrado == null)
+				{
+					if(key.equals(((NodoST<K, V>) anterior.darSiguiente()).darLlave()))
+					{
+						borrado = anterior.darSiguiente().darElemento();
+						anterior.cambiarSiguiente(anterior.darSiguiente().darSiguiente());
+						n--;
+					}
+					else
+					{
+						anterior = (NodoST<K, V>) anterior.darSiguiente();
+					}
+					posicion++;
+				}
+				
 			}
 		}
-		return respuesta;
+		return borrado;
 	}
 
 	public Iterable<K> keys()  {

@@ -3,7 +3,7 @@ package model.data_structures;
 import java.util.Iterator;
 
 //Codigo basado en "https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/SeparateChainingHashST.java"
-public class TablaHashSeparateChaining <K extends Comparable<K>, V>
+public class TablaHashSeparateChaining <K extends Comparable<K>, V> implements IHashTable<K, V>
 {
 
 	private static final int INIT_CAPACITY = 7;
@@ -118,16 +118,6 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V>
 		return respuesta;
 	}
 
-	/**
-	 * Inserts the specified key-value pair into the symbol table, overwriting the old 
-	 * value with the new value if the symbol table already contains the specified key.
-	 * Deletes the specified key (and its associated value) from this symbol table
-	 * if the specified value is {@code null}.
-	 *
-	 * @param  key the key
-	 * @param  val the value
-	 * @throws IllegalArgumentException if {@code key} is {@code null}
-	 */
 	public void put(K key, V val)
 	{
 		if (key != null)
@@ -148,21 +138,17 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V>
 		}
 	} 
 
-	/**
-	 * Removes the specified key and its associated value from this symbol table     
-	 * (if the key is in this symbol table).    
-	 *
-	 * @param  key the key
-	 * @throws IllegalArgumentException if {@code key} is {@code null}
-	 */
-	public void delete(K key) {
+	public V delete(K key)
+	{
+		V respuesta = null;
 		if (key != null)
 		{
 			int i = hash(key);
 			if (tablaSimbolos[i].contains(key))
 				n--;
-			tablaSimbolos[i].delete(key);
+			respuesta = tablaSimbolos[i].delete(key);
 		}
+		return respuesta;
 	} 
 
 	public Iterator<K> keys()
@@ -176,4 +162,5 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V>
 		respuesta = lista.iterator();
 		return respuesta;
 	}
+
 }
