@@ -90,53 +90,18 @@ public class MVCModelo {
 	{
 		return dias.getLast();
 	}
-
-	public ListaSencillamenteEncadenada<TravelTime> consultarViajesSegunHora(int hour)
+	
+	public TablaHashSeparateChaining<String, TravelTime> darSeparateChaining()
 	{
-		ListaSencillamenteEncadenada<TravelTime> respuesta = new ListaSencillamenteEncadenada<TravelTime>();
-
-		for(TravelTime temp: dias)
-		{
-			if(temp.darHoraOMesODia() == hour && temp.darIDOrigen() == 4 && temp.darIdDestino() == 5)
-			{
-				respuesta.addLast(temp);
-			}
-		}
-
-		return respuesta;
+		return separateChaining;
+	}
+	
+	public TablaHashLinearProbing<String, TravelTime> darLinearProbing()
+	{
+		return linearProbing;
 	}
 
-	public ListaSencillamenteEncadenada<TravelTime> generarMuestra(int tamano)
-	{
-		ListaSencillamenteEncadenada<TravelTime> lista = new ListaSencillamenteEncadenada<TravelTime>();
-		TravelTime[] tiempos = (TravelTime[]) dias.toArray();
-		int n = dias.size() - 1;
-		int indice = 0;
-		if(!dias.isEmpty())
-		{
-			for(int i = 0; i < tamano; i++)
-			{
-				indice = (int) (Math.random()*n);
-				TravelTime tiempo = tiempos[indice];
-				boolean yaEsta = false;
-				Iterator<TravelTime> it = lista.iterator();
-				while(it.hasNext() && !yaEsta)
-				{
-					TravelTime temp = it.next(); 
-					if(temp.compareTo(tiempo) == 0)
-					{
-						yaEsta = true;
-					}
-				}
-				if(!yaEsta)
-				{
-					lista.addLast(tiempo);
-				}
-			}
-		}
-		return lista;
-	}
-
+	//TODO Pendiente, recuerda poner lo necesario para poder llenar la tabla de cargar datos
 	public void crearTablaLinearProbing()
 	{
 
@@ -144,8 +109,55 @@ public class MVCModelo {
 
 	public void crearTablaSeparateChaining()
 	{
-
+		separateChaining = new TablaHashSeparateChaining<String, TravelTime>();
+		for(TravelTime temp: dias)
+		{
+			separateChaining.putInSet(temp.darTrimestre() + "-" + temp.darIDOrigen() + "-" + temp.darIdDestino(), temp);
+		}
 	}
-
+	
+	public Iterator<TravelTime> buscarTiemposDeViajeSeparateChaining(int trimestre, int zonaOrigen, int zonaDestino)
+	{
+		return separateChaining.getSet(trimestre + "-" + zonaOrigen + "-" + zonaDestino);
+	}
+	
+	//TODO pendiente
+	public Iterator<TravelTime> buscarTiemposDeViajeLinearProbing(int trimestre, int zonaOrigen, int zonaDestino)
+	{
+		return null;
+	}
+	
+	public double[] pruebaSeparateChaining()
+	{
+		double[] respuesta = new double[3];
+		int trimestre = (int) (Math.random()*4);
+		int zonaOrigen = (int) (Math.random()*1500);
+		int zonaDestino = (int) (Math.random()*1500);
+		int noExis = 0;
+		int siExist = 0;
+		double min = 999999999;
+		double acumulado = 0;
+		double max = 0;
+		while(noExis < 2000 && siExist < 8000)
+		{
+			//TODO terminar, recordar usar system.getTimeinmilis
+			String llave = trimestre + "-" + zonaOrigen + "-" + zonaDestino;
+			if(separateChaining.contains(llave))
+			{
+				
+			}
+			else
+			{
+				
+			}
+			trimestre = (int) (Math.random()*4);
+			zonaOrigen = (int) (Math.random()*1500);
+			zonaDestino = (int) (Math.random()*1500);
+		}
+		respuesta[0] = min;
+		respuesta[1] = acumulado/10000;
+		respuesta[2] = max;
+		return respuesta;
+	}
 }
 

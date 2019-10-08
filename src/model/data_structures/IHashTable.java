@@ -12,9 +12,9 @@ public interface IHashTable<K, V>
 	
 	Iterator<K> keys();
 	
-	//void putInSet(K key, V value);
+	void putInSet(K key, V value);
 	
-	//Iterator<V> getSet(K key);
+	Iterator<V> getSet(K key);
 	
-	//Iterator<V> deleteSet(K key);
+	Iterator<V> deleteSet(K key);
 }
