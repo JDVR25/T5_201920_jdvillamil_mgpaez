@@ -97,4 +97,32 @@ public class TravelTime implements Comparable<TravelTime>
 	{
 		return idZonaOrigen + ", " + idZonaDestino + ", " + hora_mes_dia + ", " + tiempoPromedioViaje;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idZonaDestino;
+		result = prime * result + idZonaOrigen;
+		result = prime * result + trimestre;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TravelTime other = (TravelTime) obj;
+		if (idZonaDestino != other.idZonaDestino)
+			return false;
+		if (idZonaOrigen != other.idZonaOrigen)
+			return false;
+		if (trimestre != other.trimestre)
+			return false;
+		return true;
+	}
 }

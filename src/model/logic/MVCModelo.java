@@ -23,7 +23,7 @@ public class MVCModelo {
 	private ListaSencillamenteEncadenada<TravelTime> dias;
 
 	private TablaHashSeparateChaining<String, TravelTime> separateChaining;
-	
+
 	private TablaHashLinearProbing<String, TravelTime> linearProbing;
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -33,27 +33,24 @@ public class MVCModelo {
 		dias = new ListaSencillamenteEncadenada<TravelTime>();
 	}
 
-	public void cargarDatos()
+	public void cargarDatos(int i)
 	{
 		CSVReader reader = null;
 		try 
 		{
-			for(int i = 1; i < 5; i++)
+			reader = new CSVReader(new FileReader("./data/bogota-cadastral-2018-"+ i + "-WeeklyAggregate.csv"));
+			for(String[] param : reader)
 			{
-				reader = new CSVReader(new FileReader("./data/bogota-cadastral-2018-"+ i + "-WeeklyAggregate.csv"));
-				for(String[] param : reader)
+				try
 				{
-					try
-					{
-						TravelTime nuevo = new TravelTime(i, Integer.parseInt(param[0]), Integer.parseInt(param[1]), 
-								Integer.parseInt(param[2]), Double.parseDouble(param[3]), Double.parseDouble(param[4]),
-								Double.parseDouble(param[5]), Double.parseDouble(param[6]));
-						dias.addLast(nuevo);
-					}
-					catch(NumberFormatException e)
-					{
+					TravelTime nuevo = new TravelTime(i, Integer.parseInt(param[0]), Integer.parseInt(param[1]), 
+							Integer.parseInt(param[2]), Double.parseDouble(param[3]), Double.parseDouble(param[4]),
+							Double.parseDouble(param[5]), Double.parseDouble(param[6]));
+					dias.addLast(nuevo);
+				}
+				catch(NumberFormatException e)
+				{
 
-					}
 				}
 			}
 
@@ -139,15 +136,15 @@ public class MVCModelo {
 		}
 		return lista;
 	}
-	
+
 	public void crearTablaLinearProbing()
 	{
-		
+
 	}
-	
+
 	public void crearTablaSeparateChaining()
 	{
-		
+
 	}
 
 }

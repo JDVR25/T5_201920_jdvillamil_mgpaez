@@ -130,20 +130,22 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V>
 	 */
 	public void put(K key, V val)
 	{
-		if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-		if (val == null)
+		if (key != null)
 		{
-			delete(key);
-			return;
+			if (val == null)
+			{
+				delete(key);
+			}
+			else
+			{
+				if(n >= 5*m)
+					resize(siguientePrimo(m));
+				int i = hash(key);
+				if (!tablaSimbolos[i].contains(key))
+					n++;
+				tablaSimbolos[i].put(key, val);
+			}
 		}
-
-		// double table size if average length of list >= 10
-		if(n >= 10*m)
-			resize(2*m);
-
-		int i = hash(key);
-		if (!tablaSimbolos[i].contains(key)) n++;
-		tablaSimbolos[i].put(key, val);
 	} 
 
 	/**
@@ -153,37 +155,25 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V>
 	 * @param  key the key
 	 * @throws IllegalArgumentException if {@code key} is {@code null}
 	 */
-	public void delete(Key key) {
-		if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-
-		int i = hash(key);
-		if (tablaSimbolos[i].contains(key)) n--;
-		tablaSimbolos[i].delete(key);
-
-		// halve table size if average length of list <= 2
-		if (m > INIT_CAPACITY && n <= 2*m) resize(m/2);
-	} 
-
-	// return keys in symbol table as an Iterable
-	public Iterable<Key> keys() {
-		Queue<Key> queue = new Queue<Key>();
-		for (int i = 0; i < m; i++) {
-			for (Key key : tablaSimbolos[i].keys())
-				queue.enqueue(key);
+	public void delete(K key) {
+		if (key != null)
+		{
+			int i = hash(key);
+			if (tablaSimbolos[i].contains(key))
+				n--;
+			tablaSimbolos[i].delete(key);
 		}
-		return queue;
 	} 
-
-
-	public V delete(K key)
-	{
-		V respuesta = null;
-		return respuesta;
-	}
 
 	public Iterator<K> keys()
 	{
 		Iterator<K> respuesta = null;
+		ListaSencillamenteEncadenada<K> lista = new ListaSencillamenteEncadenada<K>();
+		for (int i = 0; i < m; i++) {
+			for (K key : tablaSimbolos[i].keys())
+				lista.addLast(key);
+		}
+		respuesta = lista.iterator();
 		return respuesta;
 	}
 }

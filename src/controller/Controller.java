@@ -44,7 +44,10 @@ public class Controller {
 			case 1:
 				System.out.println("--------- \nSe cargaran los datos: ");
 				modelo = new MVCModelo(); 
-				modelo.cargarDatos();
+				modelo.cargarDatos(1);
+				modelo.cargarDatos(2);
+				modelo.cargarDatos(3);
+				modelo.cargarDatos(4);
 				System.out.println("Datos cargados");
 				System.out.println("Numero de viajes cargados: " + modelo.darNumViajes() );
 				System.out.println("Primer viaje: " + modelo.darPrimerViaje() );
