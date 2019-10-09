@@ -41,7 +41,10 @@ public class TableSimbolos<K extends Comparable<K>, V>
 			{
 				if (key.equals(temp.darLlave()))
 				{
-					buscado = temp.darElemento();
+					if(temp.darElementos().size() == 1)
+					{
+						buscado = temp.darElemento();
+					}
 					encontrado = true;
 				}
 				temp = (NodoST<K, V>) temp.darSiguiente();
@@ -55,19 +58,18 @@ public class TableSimbolos<K extends Comparable<K>, V>
 	{
 		if (key != null)
 		{ 
-			if (val == null)
-			{
-				delete(key);
-			}
-			else
+			if(val != null)
 			{
 				NodoST<K, V> temp = primero;
 				boolean encontrado = false;
 				while(temp != null && !encontrado)
 				{
-					if (key.equals(temp.darLlave()))
+					if (key.equals(temp.darLlave()) )
 					{
-						temp.cambiarElemento(val);
+						if(temp.darElementos().size() == 1)
+						{
+							temp.cambiarElemento(val);
+						}
 						encontrado = true;
 					}
 					temp = (NodoST<K, V>) temp.darSiguiente();
@@ -90,9 +92,12 @@ public class TableSimbolos<K extends Comparable<K>, V>
 		{
 			if(key.equals(primero.darLlave()))
 			{
-				borrado = primero.darElemento();
-				primero = (NodoST<K, V>) primero.darSiguiente();
-				n--;
+				if(primero.darElementos().size() == 1)
+				{
+					borrado = primero.darElemento();
+					primero = (NodoST<K, V>) primero.darSiguiente();
+					n--;
+				}
 			}
 			else
 			{
@@ -100,7 +105,7 @@ public class TableSimbolos<K extends Comparable<K>, V>
 				NodoST<K, V> anterior = primero;
 				while(posicion < n && borrado == null)
 				{
-					if(key.equals(((NodoST<K, V>) anterior.darSiguiente()).darLlave()))
+					if(key.equals(anterior.darSiguiente().darLlave()) && anterior.darSiguiente().darElementos().size() == 1)
 					{
 						borrado = anterior.darSiguiente().darElemento();
 						anterior.cambiarSiguiente(anterior.darSiguiente().darSiguiente());
@@ -112,7 +117,7 @@ public class TableSimbolos<K extends Comparable<K>, V>
 					}
 					posicion++;
 				}
-				
+
 			}
 		}
 		return borrado;
