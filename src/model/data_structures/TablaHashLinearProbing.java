@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 //Codigo basado en "https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/SeparateChainingHashST.java"
 
-public class TablaHashLinearProbing<Key, Value> 
+public class TablaHashLinearProbing<Key extends Comparable<Key>, Value> implements IHashTable<Key, Value>
 {
     private static final int INIT_CAPACITY = 4;
 
@@ -77,7 +77,7 @@ public class TablaHashLinearProbing<Key, Value>
 
     // resizes the hash table to the given capacity by re-hashing all of the keys
     private void resize(int capacity) {
-        LinearProbingHashST<Key, Value> temp = new LinearProbingHashST<Key, Value>(capacity);
+    	TablaHashLinearProbing<Key, Value> temp = new TablaHashLinearProbing<Key, Value>(capacity);
         for (int i = 0; i < m; i++) {
             if (keys[i] != null) {
                 temp.put(keys[i], vals[i]);
@@ -143,9 +143,9 @@ public class TablaHashLinearProbing<Key, Value>
      * @param  key the key
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public void delete(Key key) {
+    public Value delete(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-        if (!contains(key)) return;
+        if (!contains(key)) return null;
 
         // find position i of key
         int i = hash(key);
@@ -154,6 +154,7 @@ public class TablaHashLinearProbing<Key, Value>
         }
 
         // delete key and associated value
+        Value respuesta = vals[i];
         keys[i] = null;
         vals[i] = null;
 
@@ -174,8 +175,9 @@ public class TablaHashLinearProbing<Key, Value>
 
         // halves size of array if it's 12.5% full or less
         if (n > 0 && n <= m/8) resize(m/2);
-
+        
         assert check();
+        return respuesta;
     }
 
     /**
@@ -185,11 +187,11 @@ public class TablaHashLinearProbing<Key, Value>
      *
      * @return all keys in this symbol table
      */
-    public Iterable<Key> keys() {
-        Queue<Key> queue = new Queue<Key>();
+    public Iterator<Key> keys() {
+        ListaSencillamenteEncadenada<Key> queue = new ListaSencillamenteEncadenada<Key>();
         for (int i = 0; i < m; i++)
-            if (keys[i] != null) queue.enqueue(keys[i]);
-        return queue;
+            if (keys[i] != null) queue.addLast(keys[i]);
+        return queue.iterator();
     }
 
     // integrity check - don't check after each put() because

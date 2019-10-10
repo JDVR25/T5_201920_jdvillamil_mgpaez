@@ -163,25 +163,5 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V> implements I
 		return respuesta;
 	}
 
-	@Override
-	public void putInSet(K key, V value)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Iterator<V> getSet(K key)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Iterator<V> deleteSet(K key)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
