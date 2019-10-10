@@ -11,7 +11,7 @@ public class TablaHashSeparateChaining <K extends Comparable<K>, V> implements I
 	//Parejas de llaves
 	private int n;
 
-	//Tamaño
+	//TamaÃ±o
 	private int m;
 
 	private TableSimbolos<K, V>[] tablaSimbolos;
